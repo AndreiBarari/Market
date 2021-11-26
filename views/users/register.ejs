@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <link rel="stylesheet" href="/public/stylesheets/nav.css">
+    <link rel="stylesheet" href="/public/stylesheets/appRegister.css">
+    <link rel="stylesheet" href="/public/stylesheets/footer.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/b356958465.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/"><span class="longtxt">Farmer's Market</span> <span class="shorttxt">FM</span></a>
+            </div>
+
+            <nav>
+                <ul class="leftUl">
+                    <li> <a href="/"><span class="longtxt">Home</span><span class="shorttxt"><i class="fas fa-home"></i></span></a> </li>
+                    <li> <a href="/farms"><span class="longtxt">Market</span><span class="shorttxt"><i class="fas fa-store"></i></span></a> </li>
+                    <li> <a href="/farms/new"><span class="longtxt">List Farm</span><span class="shorttxt"><i class="fas fa-plus-square"></i></span> </a> </li>
+                </ul>
+                <ul class="rightUl">
+                    <% if(!CurrentUser) { %>
+                    <li> <a class="current" href="/register"><span class="longtxt">Register</span><span class="shorttxt"><i class="fas fa-user-plus"></i></span></a> </li>
+                    <li> <a href="/login"><span class="longtxt">Login</span><span class="shorttxt"><i class="fas fa-user"></i></span></a> </li>
+                    <% } else { %>
+                    <li> <a href="/logout"><span class="longtxt">Logout</span><span class="shorttxt"><i class="fas fa-power-off"></i></span></a> </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <h3 style="text-align: center;"><%= error %></h3>
+    <main>
+
+        <div class="mainContainer">
+        <div class="info">
+            <h1>Register</h1>
+            <p>Please create an account in order to:</p>
+            <ul>
+                <li><i class="fas fa-angle-right"></i> Create and upload farm(s).</li>
+                <li><i class="fas fa-angle-right"></i> Edit information about your farm(s).</li>
+                <li><i class="fas fa-angle-right"></i> Upload products for each farm.</li>
+                <li><i class="fas fa-angle-right"></i> Delete unwanted product.</li>
+                <li><i class="fas fa-angle-right"></i> Delete farm.</li>
+            </ul>
+        </div>
+        <div class="form">
+            <form action="/register" method="POST" autocomplete="off">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required>
+
+                <label for="email">Email</label>
+                <input type="email" name="email" Emailid="email" required>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+
+                <button class="btnGradient">Register</button>
+            </form>
+        </div>
+    </div>
+    </main>
+
+    <div class="footer-container">
+        <div class="footer">
+            <div class="footer-heading footer-1">
+                Website author: Andrei B
+            </div>
+            <div class="footer-heading footer-2">
+                &copy Farmers market 2021
+            </div>
+            <div class="footer-heading footer-3">
+                Find us on social media:
+                <a href="#"><i class="fab fa-facebook-square"></i></a>
+                <a href="#"><i class="fab fa-twitter-square"></i></a>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

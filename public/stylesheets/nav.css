@@ -1,0 +1,136 @@
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+header {
+    background-image: linear-gradient(to bottom left, #FFD400, #67B54A);
+    position: sticky;
+    top: 0;
+    padding-bottom: 2px;
+    z-index: 2;
+
+}
+
+header::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.logo {
+    float: left;
+    font-size: 35px;
+    padding: 5px 5px;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin: 5px 5px;
+}
+.logo a {
+    text-decoration: none;
+    color: #222;
+}
+
+.leftUl {
+    float: left;
+    margin-left: 20px;
+}
+
+.rightUl {
+    float: right;
+    margin-right: 20px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block;
+    margin: 0 5px;
+    padding-top: 15px;
+    padding-bottom: 2px;
+
+    position: relative;
+}
+
+nav a {
+    color: #444;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 25px;
+    font-weight: bold;
+
+}
+
+nav a:hover {
+    color: #000;
+}
+
+nav a::before {
+    content: '';
+    display: block;
+    height: 5px;
+    background-color: #222;
+    position: absolute;
+    bottom: 0;
+    width: 0%;
+
+    transition: all ease-in 0.25s;
+}
+
+nav a:hover::before {
+    width: 100%;
+}
+
+.current{
+    color:  #000;
+}
+nav .current::before {
+    content: '';
+    display: block;
+    height: 5px;
+    width: 100%;
+    background-color: #222;
+
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.shorttxt {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    nav li {
+        padding-top: 10px;
+        padding-bottom: 2px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    nav a::before {
+        bottom: -1px;
+    }
+    .logo {
+        font-size: 25px;
+        margin-left: 10px;
+        padding: 2px 5px;
+    }
+    .leftUl {
+        margin-left: 0;
+    }
+    .rightUl {
+        margin-left: auto;
+        margin-right: 10px;
+        /* float: left; */
+    }
+    .longtxt {
+        display: none;
+    }
+    .shorttxt{
+        display: inline-block;
+    }
+  }

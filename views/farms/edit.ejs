@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit farm</title>
+
+    <link rel="stylesheet" href="/public/stylesheets/appNew.css">
+    <link rel="stylesheet" href="/public/stylesheets/nav.css">
+    <link rel="stylesheet" href="/public/stylesheets/footer.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/b356958465.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/">Farmer's Market</a>
+            </div>
+
+            <nav>
+                <ul class="leftUl">
+                    <li> <a href="/">Home</a> </li>
+                    <li> <a href="/farms">Market</a> </li>
+                </ul>
+                <ul class="rightUl">
+                    <% if(!CurrentUser) { %>
+                    <li> <a href="/register">Register</a> </li>
+                    <li> <a href="/login">Login</a> </li>
+                    <% } else { %>
+                    <li> <a href="/logout">Logout</a> </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="mainForm">
+        <h1>Edit your farm</h1>
+
+        <form action="/farms/<%=farm._id%>?_method=PUT" method="POST" enctype="multipart/form-data" autocomplete="off">
+            <div class="formGrid">
+                <div class="farm">
+                    <label for="farmName">Farm name:</label>
+                    <input type="text" id="farmName" name="farm[farmName]" value="<%=farm.farmName%>" required>
+                </div>
+
+                <div class="farmer">
+                    <label for="farmer">Farmer's name:</label>
+                    <input type="text" id="farmer" name="farm[farmerName]" value="<%=farm.farmerName%>" required>
+                </div>
+
+                <div class="city">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="farm[city]" value="<%=farm.city%>" required>
+                </div>
+
+                <div class="country">
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="farm[country]" value="<%=farm.country%>" required>
+                </div>
+
+                <div class="phone">
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="farm[phone]" value="<%=farm.phone%>" required>
+                </div>
+
+                <div class="email">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="farm[email]" value="<%=farm.email%>" required>
+                </div>
+
+                <div class="description">
+                    <label for="description">Description:</label>
+                    <br>
+                    <textarea type="text" id="description" name="farm[description]" required><%=farm.description%></textarea>
+                </div>
+                <div class="buttons">
+                    <button class="btnGradient">Update farm</button>
+                </div>
+            </div>
+
+        </form>
+
+    </main>
+
+
+    <div class="footer-container">
+        <div class="footer">
+            <div class="footer-heading footer-1">
+                Website author: Andrei B
+            </div>
+            <div class="footer-heading footer-2">
+               &copy Farmers market 2021
+            </div>
+            <div class="footer-heading footer-3">
+                Find us on social media:
+                <a href="#"><i class="fab fa-facebook-square"></i></a>
+                <a href="#"><i class="fab fa-twitter-square"></i></a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

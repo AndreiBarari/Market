@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm details</title>
+
+    <link rel="stylesheet" href="/public/stylesheets/appShow.css">
+    <link rel="stylesheet" href="/public/stylesheets/nav.css">
+    <link rel="stylesheet" href="/public/stylesheets/footer.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/b356958465.js" crossorigin="anonymous"></script>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css' rel='stylesheet' />
+    <script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const farm = <%- JSON.stringify(farm) %>;
+    </script>
+
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/"><span class="longtxt">Farmer's Market</span> <span class="shorttxt">FM</span></a>
+            </div>
+
+            <nav>
+                <ul class="leftUl">
+                    <li> <a href="/"><span class="longtxt">Home</span><span class="shorttxt"><i class="fas fa-home"></i></span></a> </li>
+                    <li> <a href="/farms"><span class="longtxt">Market</span><span class="shorttxt"><i class="fas fa-store"></i></span></a> </li>
+                    <li> <a href="/farms/new"><span class="longtxt">List Farm</span><span class="shorttxt"><i class="fas fa-plus-square"></i></span> </a> </li>
+                </ul>
+                <ul class="rightUl">
+                    <% if(!CurrentUser) { %>
+                    <li> <a href="/register"><span class="longtxt">Register</span><span class="shorttxt"><i class="fas fa-user-plus"></i></span></a> </li>
+                    <li> <a href="/login"><span class="longtxt">Login</span><span class="shorttxt"><i class="fas fa-user"></i></span></a> </li>
+                    <% } else { %>
+                    <li> <a href="/logout"><span class="longtxt">Logout</span><span class="shorttxt"><i class="fas fa-power-off"></i></span></a> </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="mainTitle">
+            <div class="title">
+                <div class="farmControlls">
+                <h1><%= farm.farmName %> </h1>
+                <%  if( CurrentUser && farm.author.equals(CurrentUser._id))  {%>
+                    <div class="formButtons">
+                        <div class="formBtn">
+                        <form action="/farms/<%=farm._id%>?_method=DELETE" method="POST">
+                            <button class="btnGradient">Delete</button>
+                        </div>
+                        <div class="formBtn">
+                        </form>
+                        <form action="/farms/<%=farm._id%>/edit" method="GET">
+                            <button class="btnGradient">Edit</button>
+                        </form>
+                    </div>
+                    </div>
+                    <% } %>
+                </div>
+                <h2><%= error %> </h2>
+            </div>
+
+        </div>
+
+        <div class="grid">
+            <div class="column columnOne upSlide animated">
+                <% for(let img of farm.image) { %>
+                <img src="<%=img.url%>" alt="" value="<%=img.filename%> ">
+                <% } %>
+                <div><%= farm.description %> </div>
+            </div>
+
+            <div class="column columnTwo downSlide animated">
+                <div class="cell info">
+                    <h4>Farmer: <%= farm.farmerName %> </h4>
+                    <h4>City: <%= farm.city %> </h4>
+                    <h4>Country: <%= farm.country %> </h4>
+                    <h4>Phone: <%= farm.phone %> </h4>
+                    <h4>Email: <span id="copyEmail"><%= farm.email %></span> <button id="btnCopy"><i class="far fa-copy"></i><span class="tooltiptext">Copy to clipboard</span></button></h4>
+
+                </div>
+                <hr>
+
+                <div id='map' class='map'></div>
+
+                <hr>
+                <div class="cell">
+                    <%  if( CurrentUser && farm.author.equals(CurrentUser._id))  {%>
+                    <form class="productForm" action="/farms/<%=farm._id%>/products" method="POST" autocomplete="off">
+                        <input type="text" id="productName" name="product[name]" placeholder="Product e.g Apples" required>
+                        <input type="number" id="productPrice" name="product[price]" placeholder="Price" min="0" required>
+                        <input type="text" id="productUnit" name="product[unit]" placeholder="Unit e.g kg" required>
+                        <button class="listProduct">List product</button>
+
+                        <textarea name="product[info]" id="productDescription" rows="4" placeholder="Provide a brief description of your product" required></textarea>
+
+                    </form>
+                    <% } else { %>
+                    <h3>You must own this farm in order to list products!</h3>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="column columnThree upSlide animated">
+                <% if(farm.products == 0) { %>
+
+                    <div class="productList">
+                        <div class="productName">
+                            <div>
+                                <h3>Product </h3>
+                            </div>
+                        </div>
+                            <hr>
+                        <span> Price/Unit <span>
+                            <hr>
+                        <div>This farm has no current products to show!</div>
+                    </div>
+                    <% } %>
+
+                    <% for(let product of farm.products) {%>
+
+                        <div class="productList">
+                            <div class="productName">
+                                <div>
+                                    <h3><%= product.name %> </h3>
+                                </div>
+                                <%  if( CurrentUser && farm.author.equals(CurrentUser._id))  {%>
+                                <div class="prForum">
+                                    <form action="/farms/<%=farm._id%>/products/<%=product._id%>?_method=DELETE" method="POST">
+                                        <button class="prButton"> <i class="fas fa-trash-alt"></i> </button>
+                                    </form>
+                                </div>
+                                <% } %>
+                            </div>
+                                <hr>
+                            <span> <%= product.price %>$/<%= product.unit %> <span>
+                                <hr>
+                            <div><%= product.info %></div>
+                        </div>
+                    <% } %>
+
+
+
+            </div>
+        </div>
+
+    </main>
+
+    <div class="footer-container">
+        <div class="footer">
+            <div class="footer-heading footer-1">
+                Website author: Andrei B
+            </div>
+            <div class="footer-heading footer-2">
+                &copy Farmers market 2021
+            </div>
+            <div class="footer-heading footer-3">
+                Find us on social media:
+                <a href="#"><i class="fab fa-facebook-square"></i></a>
+                <a href="#"><i class="fab fa-twitter-square"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/public/javascripts/showMap.js"></script>
+    <script>
+
+let btnCopy = document.getElementById("btnCopy");
+
+btnCopy.addEventListener("click", function() {
+    let copyEmail = document.getElementById('copyEmail');
+    navigator.clipboard.writeText(copyEmail.textContent);
+})
+
+    </script>
+
+
+</body>
+
+</html>

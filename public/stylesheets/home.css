@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5) ), url('/assets/main1.jpg');
+    opacity: 0.85;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Zen Antique', serif;
+}
+
+
+/* MAIN */
+main {
+    width: 80%;
+    margin: auto 10%;
+    text-align: center;
+    padding-bottom: 10px;
+
+}
+
+main div p {
+    margin: 5% 20% 5% 20%;
+    font-size: 40px;
+    font-weight: 700;
+    color: white;
+}
+
+.btnGradient {
+    position: relative;
+    display: inline-block;
+    outline: 0;
+    padding: 8px 16px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    cursor: pointer;
+    color: #222;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0px 4px 10px rgba(53, 51, 51, 0.5);
+
+    background-image: linear-gradient(
+        to bottom left,
+        #FFD400,
+        #67B54A
+        );
+    z-index: 1;
+}
+.btnGradient::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: #111;
+    border-radius: 50px;
+
+    background-image: linear-gradient(
+        to bottom left,
+        #67B54A,
+        #FFD400
+        );
+        z-index: -1;
+        transition: opacity 0.5s linear;
+        opacity: 0;
+}
+.btnGradient:hover::before {
+    opacity: 1;
+}
+
+
+
+/* MediaQ */
+@media only screen and (max-width: 600px) {
+    main {
+        width: auto;
+        margin: auto auto;
+    }
+    main div p {
+        font-size: 25px;
+    }
+}

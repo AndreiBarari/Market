@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market</title>
+    <link rel="stylesheet" href="/public/stylesheets/appIndex.css">
+    <link rel="stylesheet" href="/public/stylesheets/nav.css">
+    <link rel="stylesheet" href="/public/stylesheets/footer.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Antique&display=swap" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/b356958465.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="/"><span class="longtxt">Farmer's Market</span> <span class="shorttxt">FM</span></a>
+            </div>
+
+            <nav>
+                <ul class="leftUl">
+                    <li> <a href="/"><span class="longtxt">Home</span><span class="shorttxt"><i class="fas fa-home"></i></span></a> </li>
+                    <li> <a class="current" href="/farms"><span class="longtxt">Market</span><span class="shorttxt"><i class="fas fa-store"></i></span></a> </li>
+                    <li> <a href="/farms/new"><span class="longtxt">List Farm</span><span class="shorttxt"><i class="fas fa-plus-square"></i></span> </a> </li>
+                </ul>
+                <ul class="rightUl">
+                    <% if(!CurrentUser) { %>
+                    <li> <a href="/register"><span class="longtxt">Register</span><span class="shorttxt"><i class="fas fa-user-plus"></i></span></a> </li>
+                    <li> <a href="/login"><span class="longtxt">Login</span><span class="shorttxt"><i class="fas fa-user"></i></span></a> </li>
+                    <% } else { %>
+                    <li> <a href="/logout"><span class="longtxt">Logout</span><span class="shorttxt"><i class="fas fa-power-off"></i></span></a> </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="mainContainer">
+            <h5 class="mc-title">
+                Welcome to the market
+            </h5>
+
+            <div class="mc-search">
+                <input id="searchbar" type="text" name="search" onkeyup="myFunction()" placeholder="Search for farm" autocomplete="off">
+            </div>
+
+            <div class="mc-link">
+                <h5>List your farm</h5>
+                <form action="/farms/new">
+                    <button class="fas btnlink">
+                        New farm <i id="addHover" class="fas fa-plus-circle"></i>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+        <ul class="grid-wrapper" id="myUl">
+            <% for(let farm of farms) {%>
+            <li class="myLi">
+                <% for(let img of farm.image) { %>
+                    <img class="cardImage" src="<%=img.url%>" alt="">
+                    <% } %>
+                <div class="indexFarm searchfield">
+                    <%= farm.farmName %>
+                </div>
+                <div class="indexFarmer">
+                    Farmer: <%= farm.farmerName %>
+                </div>
+                <div class="indexLocation">
+                    Location: <%= farm.city %>, <%= farm.country %>
+                </div>
+                <button class="btnGradient">
+                    <a href="/farms/<%=farm._id%>">Visit farm</a>
+                </button>
+            </li>
+            <% } %>
+        </ul>
+    </main>
+
+
+    <div class="footer-container">
+        <div class="footer">
+            <div class="footer-heading footer-1">
+                Website author: Andrei B
+            </div>
+            <div class="footer-heading footer-2">
+                &copy Farmers market 2021
+            </div>
+            <div class="footer-heading footer-3">
+                Find us on social media:
+                <a href="#"><i class="fab fa-facebook-square"></i></a>
+                <a href="#"><i class="fab fa-twitter-square"></i></a>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        function myFunction() {
+    let input = document.getElementById("searchbar");
+    let filter = input.value.toUpperCase();
+    let ul = document.getElementById("myUL");
+    let li = document.getElementsByClassName("myLi");
+    for (let i = 0; i < li.length; i++) {
+        let field = li[i].getElementsByClassName("searchfield")[0];
+        let txtValue = field.textContent || field.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+    </script>
+</body>
+
+</html>
